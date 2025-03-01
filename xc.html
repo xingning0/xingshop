@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    .header{
+        width: 100%;
+        height: 40px;
+        background-color: #f3f3f3;
+    }
+    .header b{
+        font-size: 23px;
+        margin-top: 10px;
+        margin-left: 10px;
+    }
+    #b1{
+        position: absolute;
+        top: -8px;
+        margin-left: -50px;
+        font-size: 18px;
+    }
+    #in1{
+        width: 90%;
+        height: 40px;
+        background-color: #f2f2f2;
+        border: none;
+        border-radius: 2vw;
+        margin-top: 10px;
+    }
+    lable{
+        position: absolute;
+        left: 5%;
+        margin-bottom: 10px;
+    }
+    #bu1{
+        width: 90%;
+        height: 40px;
+        border: none;
+        border-radius: 2vw;
+        background: linear-gradient(to right, #658dd8,#3e74d8);
+        color: white;
+    }
+    #bu1:hover{
+        background: linear-gradient(to right, #396ed1,#5a84d1);
+    }
+</style>
+<body>
+    <div class="header">
+        <b onclick="window.history.back()">&times;</b>
+        <center>
+         <b id="b1">贡献商品</b>
+        </center> 
+    </div>
+    <center>
+     <br>
+     <lable>商品链接:</lable><br>
+     <input placeholder="    商品的链接" id="in1" type="text"><br><br>
+     <lable>商品简介:</lable><br>
+     <input placeholder="    商品的简介" id="in1" type="text"><br><br>
+     <button id="bu1">提交</button>
+    </center>
+</body>
+</html>

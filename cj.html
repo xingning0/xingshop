@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拼多多风格抽奖</title>
+    <style>
+        /* 整体样式 */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 抽奖容器 */
+       .lottery-container {
+            width: 350px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 顶部装饰区域 */
+       .top-decoration {
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+       .top-decoration b {
+            font-size: 20px;
+            color: #333;
+        }
+
+        /* 奖品展示区域 */
+       .prize-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 15px;
+        }
+
+       .prize-item {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+       .prize-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+       .prize-item p {
+            margin: 0;
+            font-size: 14px;
+            text-align: center;
+            color: #333;
+        }
+
+       .prize-type {
+            background-color: #00c853;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+
+        /* 幸运值和额外奖励按钮区域 */
+       .lucky-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f2f2f2;
+            padding: 10px 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+       .lucky-info span {
+            font-size: 14px;
+            color: #333;
+        }
+
+       .extra-prize-btn {
+            background-color: #00c853;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        /* 抽奖按钮区域 */
+       .lottery-btn-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+       .lottery-btn {
+            width: 200px;
+            height: 50px;
+            background-color: #f2f2f2;
+            color: #333;
+            border: 1px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+       .lottery-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* 模拟光束效果 */
+       .beam-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            transform-origin: center center;
+            box-shadow: 0 0 15px 5px rgba(255, 255, 0, 0.8);
+            opacity: 0.7;
+        }
+
+        /* 光束经过时奖品的亮光样式 */
+       .prize-item.highlight {
+            box-shadow: 0 0 10px 5px rgba(255, 255, 0, 0.5);
+        }
+
+        /* 弹窗样式 */
+       .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            width: 300px;
+            z-index: 1000;
+            display: none;
+        }
+
+       .popup h2 {
+            margin: 0 0 20px 0;
+            color: #333;
+        }
+
+       .popup p {
+            margin: 0 0 30px 0;
+            color: #666;
+        }
+
+       .popup-buttons {
+            position: relative;
+            bottom: 0;
+            display: flex;
+            justify-content: space-around;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+       .popup-buttons button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+       .confirm-button {
+            background-color: #00c853;
+            color: white;
+        }
+
+       .cancel-button {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lottery-container">
+        <!-- 顶部装饰 -->
+        <div class="top-decoration">
+            <b>抽取你的钱数</b>
+        </div>
+        <!-- 奖品展示 -->
+        <div class="prize-display">
+            <div class="prize-item" data-index="0">
+                <img src="mo.jpg" alt="奖品1">
+                <p>100w免单</p>
+                <span class="prize-type">100w免单</span>
+            </div>
+            <div class="prize-item" data-index="1">
+                <img src="mo.jpg" alt="奖品2">
+                <p>200w</p>
+                <span class="prize-type">200w</span>
+            </div>
+            <div class="prize-item" data-index="2">
+                <img src="mo.jpg" alt="奖品3">
+                <p>250w</p>
+                <span class="prize-type">250w</span>
+            </div>
+        </div>
+        <!-- 幸运值和额外奖励按钮 -->
+        <div class="lucky-info">
+            <span>幸运值 <strong>99.9</strong>，极大概率抽到免单100w</span>
+            <button class="extra-prize-btn">免单打款</button>
+        </div>
+        <!-- 抽奖按钮 -->
+        <div class="lottery-btn-container">
+            <button class="lottery-btn">立即抽奖</button>
+        </div>
+        <div class="beam-effect"></div>
+    </div>
+    <div class="popup">
+        <h2>恭喜你中奖了</h2>
+        <p id="prize-content"></p>
+        <div class="popup-buttons">
+            <button class="confirm-button" id="confirm-button">确认</button>
+            <button class="cancel-button" id="cancel-button">取消</button>
+        </div>
+    </div>
+    <script>
+        const lotteryBtn = document.querySelector('.lottery-btn');
+        const prizeItems = document.querySelectorAll('.prize-item');
+        const beamEffect = document.querySelector('.beam-effect');
+        const sectionCount = prizeItems.length;
+        const anglePerSection = 360 / sectionCount;
+        const popup = document.querySelector('.popup');
+        const prizeContent = document.getElementById('prize-content');
+        const confirmButton = document.getElementById('confirm-button');
+        const cancelButton = document.getElementById('cancel-button');
+
+        // 检查是否在一天内已经点击过按钮
+        const lastClickTime = localStorage.getItem('lotteryLastClickTime');
+        const oneDayInMillis = 24 * 60 * 60 * 1000;
+        const now = new Date().getTime();
+
+        if (lastClickTime && now - parseInt(lastClickTime) < oneDayInMillis) {
+            lotteryBtn.disabled = true;
+            lotteryBtn.style.opacity = 0.5; // 使按钮变灰，视觉上表示禁用
+        }
+
+        lotteryBtn.addEventListener('click', () => {
+            lotteryBtn.disabled = false;
+            lotteryBtn.textContent = '抽奖中...';
+            localStorage.setItem('lotteryLastClickTime', new Date().getTime());
+            const randomAngle = Math.floor(Math.random() * 360) + 1;
+            const rotationAngle = randomAngle + (360 * Math.floor(Math.random() * 5));
+            const beamRotationInterval = setInterval(() => {
+                let currentBeamAngle = 0;
+                const rotateStep = 10;
+                const rotateDuration = Math.abs(rotationAngle) / rotateStep;
+                const rotateInterval = setInterval(() => {
+                    currentBeamAngle += rotateStep * (rotationAngle > 0? 1 : -1);
+                    beamEffect.style.transform = `rotate(${currentBeamAngle}deg)`;
+                    const currentSectionIndex = Math.floor((currentBeamAngle % 360) / anglePerSection);
+                    prizeItems.forEach((item, index) => {
+                        if (index === currentSectionIndex) {
+                            item.classList.add('highlight');
+                        } else {
+                            item.classList.remove('highlight');
+                        }
+                    });
+                    if (Math.abs(currentBeamAngle) >= Math.abs(rotationAngle)) {
+                        clearInterval(rotateInterval);
+                        setTimeout(() => {
+                            const selectedPrizeIndex = Math.floor((rotationAngle % 360) / anglePerSection);
+                            const selectedPrize = prizeItems[selectedPrizeIndex];
+                            prizeContent.textContent = `你抽到了：${selectedPrize.querySelector('p').textContent}请截图并提交给客服 正在跳转中...`;
+                            popup.style.display = 'block';
+                            lotteryBtn.disabled = false;
+                            lotteryBtn.textContent = '立即抽奖';
+                            prizeItems.forEach(item => item.classList.remove('highlight'));
+                        }, 500);
+                        clearInterval(beamRotationInterval);
+                    }
+                }, 10);
+            }, 500);
+        });
+
+        confirmButton.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+
+        cancelButton.addEventListener('click', () => {
+            popup.style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>

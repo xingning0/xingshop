@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    span{
+        font-size: 20px;
+        margin-top: 20px;
+        margin-left: 10px;
+    }
+    .d1{
+        width: 400px;
+        height: 100px;
+        border-radius: 2vw;
+        background-color: white;
+        box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+        margin-top: 10px;
+    }
+    #im1{
+        width: 90px;
+        height: 90px;
+        margin-top: 5px;
+        margin-left: 5px;
+        border-radius: 1vh;
+        position: absolute;
+        margin-left: -195px;
+    }
+    #b2{
+        color: rgb(246, 75, 75);
+        margin-top: 30px;
+        font-size: 20px;
+        position: absolute;
+        margin-left: -103px;
+    }
+    #b1{
+        position: absolute;
+        margin-left: -100px;
+        margin-top: 10px;
+    }
+    #by{
+        color: rgb(171, 157, 157);
+        position: absolute;
+        margin-left: 100px;
+        margin-top: 35px;
+        font-size: 12px;
+    }
+    #buy{
+        width: 120px;
+        border: none;
+        height: 35px;
+        background-color: rgb(234, 92, 92);
+        color: white;
+        border-radius: 2vw;
+        position: absolute;
+        right: 10px;
+        margin-top: 2.5px;
+    }
+    .bott{
+        width: 100%;
+        height: 40px;
+        background-color: white;
+        box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+        position: absolute;
+        bottom: 0;
+    }
+    .d2{
+        width: 400px;
+        height: 220px;
+        border-radius: 2vh;
+        background-color: white;
+        box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
+        margin-top: 20px;
+    }
+    #im2{
+        width: 90px;
+        height: 90px;
+        margin-top: 5px;
+        margin-left: 5px;
+        border-radius: 1vh;
+        position: absolute;
+        margin-left: -195px;
+    }
+    #in1{
+        width: 55%;
+        height: 40px;
+        border: none;
+        margin-left: 30%;
+    }
+    .hr1{
+        width: 100%;
+        height: 1px;
+        border: 1px dashed #f2f2f2;
+    }
+    #x{
+        color: red;
+        position: absolute;
+        margin-left: -23px;
+        margin-top: 5px;
+    }
+    #id{
+        position: absolute;
+        margin-left: -15px;
+        margin-top: 7px;
+        font-size: 15px;
+    }
+    #p1,#p3,#p5,#p7{
+        margin-left: 10px;
+        position: absolute;
+        margin-top: 10px;
+        font-size: 13px;
+    }
+    #p2,#p4,#p6,#p8{
+        position: absolute;
+        margin-left: 265px;
+        font-size: 13px;
+        margin-top: 10px;
+    }
+    p{
+        font-size: 13px;
+        margin-top: 10px;
+    }
+</style>
+<body>
+    <span onclick="a()">&times;</span>
+    <br>
+    <center>
+     <div class="d1">
+         <img id="im1" src="sqs.jpg">
+         <b id="b1">香肠派对竞技70分</b>
+         <p id="by">全场包邮</p><br>
+         <b id="b2">￥4.99</b>
+     </div>
+     <div class="d2">
+        <b id="x">*</b><b id="id">请输入你的游戏id</b>
+        <input placeholder="   请输入你的游戏id" type="text" id="in1">
+        <div class="hr1"></div>
+        <b id="x">*</b><b id="id">请输入你的备注</b>
+        <input placeholder="   请输入你的备注" type="text" id="in1">
+        <div class="hr1"></div>
+        <p id="p1">下单时间</p>
+        <p id="p2">time</p><br>
+        <p id="p3">购买物品</p>
+        <p id="p4">香肠派对竞技70分</p><br>
+        <p id="p5">支付收款人</p>
+        <p id="p6">Xn俱乐部</p><br>
+        <p id="p7">价格</p>
+        <p id="p8">￥9.90</p>
+     </div>
+     <div class="bott">
+        <button onclick="b()" id="buy">下单</button>
+     </div>
+    </center>
+    <script>
+        // 创建Date对象
+        var now = new Date();
+        // 获取年、月、日、小时
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var date = now.getDate();
+        var hour = now.getHours();
+        // 将获取到的时间拼接成指定格式的字符串
+        var currentTime = year + '年' + month + '月' + date + '日 ' + hour + '时';
+        // 获取HTML元素并将时间字符串显示在页面上
+        document.getElementById('p2').innerHTML = currentTime;
+        function a(params) {
+            window.history.back()
+        }
+        function b(params) {
+            window.location.href = "https://m.tb.cn/h.TuBsHHy?tk=X9Cgekt27Vl CZ009  "
+        }
+    </script>
+</body>
+</html>

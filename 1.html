@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品详情页</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        /* 商品图片轮播区域 */
+        .product-images {
+            width: 100%;
+            height: 450px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-slider {
+            display: flex;
+            width: 300%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .image-slider img {
+            width: 33.333%;
+            height: 450px;
+            object-fit: cover;
+        }
+
+        .slider-nav {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+
+        .slider-nav span {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(202, 200, 200, 0.5);
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .slider-nav span.active {
+            background-color: rgb(209, 197, 197);
+        }
+
+        /* 商品信息区域 */
+        .product-info {
+            padding: 20px;
+            background-color: white;
+        }
+
+        .product-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 20px;
+            color: #FF464E;
+            margin-bottom: 20px;
+        }
+
+        /* 尺码选择区域 */
+        .size-selector {
+            margin-bottom: 20px;
+        }
+
+        .size-selector label {
+            display: inline-block;
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .size-selector input[type="radio"] {
+            display: none;
+        }
+
+        .size-selector input[type="radio"]:checked+label {
+            border-color: #FF464E;
+            color: #FF464E;
+        }
+
+        /* 按钮区域 */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .add-to-cart,
+        .buy-now {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .add-to-cart {
+            background-color: white;
+            color: #FF464E;
+            border: 1px solid #FF464E;
+            margin-right: 10px;
+        }
+
+        .buy-now {
+            background-color: #FF464E;
+            color: white;
+        }
+
+        /* 商品详情介绍 */
+        .product-details {
+            padding: 20px;
+            background-color: white;
+            margin-top: 10px;
+        }
+
+        .product-details h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        /* 隐藏初始的弹窗 */
+        #popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 30px; /* 扩大弹窗内边距，让弹窗变大 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.5s ease-in-out;
+            width: 400px; /* 设置弹窗宽度 */
+        }
+
+        /* 标题样式 */
+        #popup h2 {
+            color: #FFB6C1; /* 浅红色 */
+            text-align: center;
+        }
+
+        /* 内容样式 */
+        #popup p {
+            text-align: center;
+        }
+
+        /* 定义显示动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 定义消失动画 */
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* 按钮样式 */
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0; /* 按钮居中 */
+        }
+
+        /* 禁用按钮样式 */
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 商品图片轮播 -->
+    <div class="product-images">
+        <div class="image-slider">
+            <img src="ss.jpg" alt="商品图片 1">
+            <img src="ss.jpg" alt="商品图片 2">
+            <img src="ss.jpg" alt="商品图片 3">
+        </div>
+        <div class="slider-nav">
+            <span class="active" onclick="goToSlide(0)"></span>
+            <span onclick="goToSlide(1)"></span>
+            <span onclick="goToSlide(2)"></span>
+        </div>
+    </div>
+    <!-- 商品信息 -->
+    <div class="product-info">
+        <h2 class="product-title">香肠派对竞技30分</h2>
+        <p class="product-price">¥0.99</p>
+        <!-- 尺码选择 -->
+        <div class="size-selector">
+            <input type="radio" id="size-38" name="size" value="38">
+            <label for="size-38">30分</label>
+            <input type="radio" id="size-39" name="size" value="39">
+            <label for="size-39">31分</label>
+        </div>
+        <div class="button-group">
+            <button onclick="buynow()" class="add-to-cart">加入购物车</button>
+            <button onclick="buynow()" class="buy-now">立即购买</button>
+        </div>
+    </div>
+    <!-- 商品详情介绍 -->
+    <div class="product-details">
+        <h3>商品详情</h3>
+        <p>香肠派对竞技上分 保底30分价格实惠下单后把您的id发过来打完确认收货 态度好送一局</p>
+    </div>
+    <div id="popup">
+        <h2>下单须知</h2>
+        <p>下单后请等待打手已读您的 id 消息，下单先把您的 id 发送过去，之后带您打完后再确认收货，谢谢你的配合。</p>
+        <button id="closeButton" disabled>我已知晓（5）</button>
+    </div>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelector('.image-slider');
+        const navSpans = document.querySelectorAll('.slider-nav span');
+
+        function goToSlide(index) {
+            currentSlide = index;
+            slides.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+            navSpans.forEach((span, i) => {
+                span.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        const sizeRadios = document.querySelectorAll('.size-selector input[type="radio"]');
+        sizeRadios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                console.log(`选择的尺码是: ${this.value}`);
+            });
+        });
+        function buynow(params) {
+            const popup = document.getElementById('popup');
+            popup.style.display = 'block';
+
+            // 初始化倒计时
+            let countdown = 5;
+            const closeButton = document.getElementById('closeButton');
+            const intervalId = setInterval(() => {
+                countdown--;
+                closeButton.textContent = `我已知晓（${countdown})`;
+                if (countdown === 0) {
+                    clearInterval(intervalId);
+                    closeButton.disabled = false;
+                    closeButton.textContent = '我已知晓';
+                }
+            }, 1000);
+
+            // 关闭弹窗
+            closeButton.addEventListener('click', function () {
+                popup.style.animation = 'fadeOut 0.5s ease-in-out';
+                // 修正 URL 中的空格问题
+                window.location.href = "shop.html";
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 500);
+            });
+        }
+    </script>
+</body>
+
+</html>
